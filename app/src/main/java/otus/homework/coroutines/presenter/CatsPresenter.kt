@@ -1,15 +1,17 @@
-package otus.homework.coroutines
+package otus.homework.coroutines.presenter
 
 import android.content.Context
 import android.widget.Toast
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import otus.homework.coroutines.CrashMonitor
+import otus.homework.coroutines.R
+import otus.homework.coroutines.interactor.CatFactInteractor
+import otus.homework.coroutines.view.ICatsView
 import java.net.SocketTimeoutException
 
 class CatsPresenter(
-    private val catsService: CatsService,
+    private val catsInteractor: CatFactInteractor,
     private val presenterScope: CoroutineScope
 ) {
 
@@ -18,10 +20,7 @@ class CatsPresenter(
     fun onInitComplete(context: Context) {
         presenterScope.launch {
             try {
-                val fact = withContext(Dispatchers.IO) {
-                    catsService.getCatFact()
-                }
-                _catsView?.populate(fact)
+                _catsView?.populate(catsInteractor.getCatFact())
             } catch (_: SocketTimeoutException) {
                 showToast(context, context.getString(R.string.socket_timeout_error))
             } catch (e: Exception) {

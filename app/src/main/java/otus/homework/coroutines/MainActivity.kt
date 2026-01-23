@@ -3,6 +3,9 @@ package otus.homework.coroutines
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.cancel
+import otus.homework.coroutines.di.DiContainer
+import otus.homework.coroutines.presenter.CatsPresenter
+import otus.homework.coroutines.view.CatsView
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         catsPresenter = CatsPresenter(
-            diContainer.service,
+            diContainer.catFactInteractor,
             diContainer.presenterScope
         )
         view.presenter = catsPresenter
