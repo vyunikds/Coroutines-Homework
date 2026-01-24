@@ -5,6 +5,7 @@ object CrashMonitor {
     /**
      * Pretend this is Crashlytics/AppCenter
      */
-    fun trackWarning() {
+    fun trackWarning(message: String, throwable: Throwable) {
+        println("[CrashMonitor] Warning: $message, Exception: $throwable")
     }
 }

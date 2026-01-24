@@ -2,14 +2,13 @@ package otus.homework.coroutines
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.coroutines.cancel
 import otus.homework.coroutines.di.DiContainer
-import otus.homework.coroutines.presenter.CatsPresenter
 import otus.homework.coroutines.view.CatsView
+import otus.homework.coroutines.viewmodel.CatsViewModel
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var catsPresenter: CatsPresenter
+    lateinit var catsViewModel: CatsViewModel
 
     private val diContainer = DiContainer()
 
@@ -19,19 +18,17 @@ class MainActivity : AppCompatActivity() {
         val view = layoutInflater.inflate(R.layout.activity_main, null) as CatsView
         setContentView(view)
 
-        catsPresenter = CatsPresenter(
-            diContainer.catFactInteractor,
-            diContainer.presenterScope
+        catsViewModel = CatsViewModel(
+            diContainer.catFactInteractor
         )
-        view.presenter = catsPresenter
-        catsPresenter.attachView(view)
-        catsPresenter.onInitComplete(applicationContext)
+        view.viewModel = catsViewModel
+        catsViewModel.attachView(view)
+        catsViewModel.onInitComplete()
     }
 
     override fun onStop() {
         if (isFinishing) {
-            catsPresenter.detachView()
-            diContainer.presenterScope.cancel()
+            catsViewModel.detachView()
         }
         super.onStop()
     }
