@@ -1,8 +1,8 @@
-package otus.homework.coroutines
+package otus.homework.coroutines.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class Fact(
+data class FactDto(
 	@field:SerializedName("fact")
 	val fact: String,
 	@field:SerializedName("length")
